@@ -149,7 +149,7 @@ const createSlider = (min, max, value, step, onUpdate) => {
 (async () => {
   const starParameters = { n: 5, k: 2 };
 
-  await Assets.load("/assets/fonts/Lexend.ttf");
+  await Assets.load("assets/fonts/Lexend.ttf");
 
   const app = new Application();
   await app.init({
@@ -159,7 +159,7 @@ const createSlider = (min, max, value, step, onUpdate) => {
 
   document.body.appendChild(app.canvas);
 
-  sound.add("click", "/assets/sound/click.ogg");
+  sound.add("click", "assets/sound/click.ogg");
 
   const starContainer = new Container();
   const star = new Star(starContainer);
