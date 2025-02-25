@@ -1,6 +1,6 @@
 import { Application, Assets, Container, Graphics, Text } from "pixi.js";
 import Star from "./star";
-import { ButtonContainer, Slider } from "@pixi/ui";
+import { ButtonContainer, Input, Slider } from "@pixi/ui";
 import { sound } from "@pixi/sound";
 import { Layout } from "@pixi/layout";
 
@@ -146,8 +146,22 @@ const createSlider = (min, max, value, step, onUpdate) => {
   return slider;
 };
 
+const createInput = (width, value, onChange) => {
+  const input = new Input({
+    bg: new Graphics().roundRect(0, 0, width, 40, 10).fill("white"),
+    height: 40,
+    padding: 10,
+    value,
+    textStyle: {
+      ...fontStyle,
+    },
+  });
+  input.onChange.connect(onChange);
+  return input;
+};
+
 (async () => {
-  const starParameters = { n: 5, k: 2 };
+  const starParameters = { n: 5, k: 2, a: 10 };
 
   await Assets.load("assets/fonts/Lexend.ttf");
 
@@ -183,6 +197,15 @@ const createSlider = (min, max, value, step, onUpdate) => {
     sound.play("click");
   });
 
+  const sideLengthInput = createInput(100, starParameters.a, (value) => {
+    starParameters.a = value;
+    star.calculateStarArea(
+      starParameters.n,
+      starParameters.k,
+      starParameters.a
+    );
+  });
+
   const layout = new Layout({
     id: "root",
     content: {
@@ -195,7 +218,7 @@ const createSlider = (min, max, value, step, onUpdate) => {
             content: starContainer,
           },
           controlsContent: {
-            content: [{ nSlider, styles: { margin: 200 } }, { kSlider }],
+            content: { nSlider, kSlider },
           },
         },
       },
@@ -228,19 +251,17 @@ const createSlider = (min, max, value, step, onUpdate) => {
 
   app.stage.addChild(layout);
 
-  star.drawStar(starParameters.n, starParameters.k);
+  layout.resize(app.renderer.width, app.renderer.height);
 
-  window.addEventListener("load", () => {
-    layout.resize(app.renderer.width, app.renderer.height);
-    layout
-      .getChildByID("controlsContent")
-      .content.children.forEach((control) => {
-        const { bg, fill } = control.options;
-        const scaleFactor = control.parent.width / LAYOUT_WIDTH;
-        bg.scale.set(scaleFactor);
-        fill.scale.set(scaleFactor);
-      });
+  layout.getChildByID("controlsContent").content.children.forEach((control) => {
+    if (typeof control === Slider) {
+      const { bg, fill } = control.options;
+      const scaleFactor = control.parent.width / LAYOUT_WIDTH;
+      bg.scale.set(scaleFactor);
+      fill.scale.set(scaleFactor);
+    }
   });
+  star.drawStar(starParameters.n, starParameters.k);
 
   window.addEventListener("resize", () => {
     layout.resize(app.renderer.width, app.renderer.height);
