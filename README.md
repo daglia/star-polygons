@@ -1,4 +1,6 @@
-![Star Polygons Demo](demo.gif)
+<p align="center">
+  <img src="demo.gif" alt="Star Polygons Demo">
+</p>
 
 # Star Polygons
 
