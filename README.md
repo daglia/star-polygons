@@ -1,3 +1,5 @@
+![Star Polygons Demo](demo.gif)
+
 # Star Polygons
 
 This project is a web application that allows users to visualize star polygons. The application is built using PixiJS and PixiUI libraries for rendering and UI components.
