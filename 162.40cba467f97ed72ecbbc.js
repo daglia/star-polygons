@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkstar_polygons=self.webpackChunkstar_polygons||[]).push([[162],{2162:(s,e,p)=>{p.r(e),p(4732),p(9010),p(8480),p(8928),p(5285),p(9305),p(6958),p(6444),p(9147),p(8723),p(1317),p(4980)}}]);
